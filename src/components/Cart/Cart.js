@@ -13,11 +13,10 @@ import react from "../../assets/react.png";
 import sharepoint from "../../assets/sharepoint.png";
 import UXdesign from "../../assets/UXdesign.png";
 import dmmt from "../../assets/dontmake.png";
-import { connect } from "react-redux"
-import { IdActions, TokenAction } from '../../Store/actions/BookStoreActions';
 
 
-const Cart = (props/*{local_variable,IdActions,TokenAction}*/) => {
+
+const Cart = (props) => {
 
     const [count, setCount] = useState();
 
@@ -27,11 +26,7 @@ const Cart = (props/*{local_variable,IdActions,TokenAction}*/) => {
 
     const userid = props.location.state;
 
-    const handleInput = (e) => {
-        setBookName(e.target.value);
-    }
-
-
+    
     useEffect(() => {
         BookStoreCartService.noofBooksPresentinCart(userid).then((data) => { setCount(data.data) });
         BookStoreCartService.getBookPresentinCart(userid).then((data) => { setBookList(data.data) });
@@ -118,7 +113,4 @@ const Cart = (props/*{local_variable,IdActions,TokenAction}*/) => {
 
 
 }
-const mapStateToProps = state => ({
-    local_variable: state
-});
-export default connect(mapStateToProps, { IdActions, TokenAction })(Cart);
+export default Cart;

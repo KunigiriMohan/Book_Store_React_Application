@@ -1,17 +1,11 @@
-import react from "react";
+
 import "../Login/Login.css"
 import logo from "../../assets/education.svg";
 import { useEffect, useState } from "react";
 import UserService from "../../service/UserService.js"
-import { connect } from "react-redux";
-import {IdActions,TokenAction} from "../../Store/actions/BookStoreActions"
-
-const Login = (/*{local_variable,IdActions,TokenAction}*/props) => {
 
 
-    const [userId,setUserID] = useState();
-
-    const[token,setToken] = useState();
+const Login = (props) => {
 
     const[errorMessage,setErrorMessage] = useState()
 
@@ -77,7 +71,5 @@ const Login = (/*{local_variable,IdActions,TokenAction}*/props) => {
         </>
     )
 }
-const mapStateToProps = state => ({
-    local_variable :state
-});
-export default connect(mapStateToProps,{IdActions,TokenAction})(Login);
+
+export default Login;

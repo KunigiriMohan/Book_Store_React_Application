@@ -15,7 +15,7 @@ import dmmt from "../../assets/dontmake.png";
 import "../Order/Order.css"
 
 
-const CustomerDetails = (props) => {
+const Order = (props) => {
     const userid = props.location.state;
     const [count, setCount] = useState();
     const [user, setUser] = useState({
@@ -30,9 +30,6 @@ const CustomerDetails = (props) => {
 
 
     const idOfOrder = Math.floor(Math.random()*900000) + 100000;
-
-    
-
 
     const [cartTotal, setCartTotal] = useState();
 
@@ -77,19 +74,6 @@ const CustomerDetails = (props) => {
         quantity === 1 ? BookStoreCartService.removeBookFromCart(bookId) :
             BookStoreCartService.updateBooksinCart(bookId, quantity - 1);
     }
-
-    const placeOrder = () => {
-        if (count) {
-            props.history.push({
-                pathname: "/details",
-                state: userid,
-            });
-        } else {
-            alert("Your Cart is Empty")
-        }
-    }
-
-
 
     const cartRedirect = () => {
         props.history.push({
@@ -142,7 +126,6 @@ const CustomerDetails = (props) => {
 
         bookList.map((book) => {book.orderId =idOfOrder;delete book.bookId})
         let object = {
-            //id:0,
             orderId:idOfOrder,
             date:new Date(),
             price:cartTotal,
@@ -151,7 +134,7 @@ const CustomerDetails = (props) => {
             userId:userid,
             books:bookList
         }
-        //setOrder({date:new Date(),price:cartTotal,quantity:count,address:user.address,userId:userid,books:bookList})
+        
         BookStoreCartService.removeBookFromCartusingUserId(userid);
         BookStoreCartService.saveOrder(object);
     
@@ -249,4 +232,4 @@ const CustomerDetails = (props) => {
         </>
     )
 }
-export default CustomerDetails;
+export default Order;

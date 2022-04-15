@@ -12,10 +12,9 @@ import sharepoint from "../../assets/sharepoint.png";
 import UXdesign from "../../assets/UXdesign.png";
 import BookStoreCartService from "../../service/BookStoreCartService";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux"
-import { IdActions, TokenAction } from '../../Store/actions/BookStoreActions';
 
-const Home = (/*{local_variable,IdActions,TokenAction}*/props) => {
+
+const Home = (props) => {
 
     const [bookList, setBookList] = useState([]);
 
@@ -25,13 +24,9 @@ const Home = (/*{local_variable,IdActions,TokenAction}*/props) => {
 
     const [count, setCount] = useState();
 
-
-    //const [userid, setUserID] = useState();
-
     const [bookpresenttinCart, setBookPresentinCart] = useState();
 
     const [bookInCart, setBookinCart] = useState([]);
-
 
     const userid = props.location.state;
 
@@ -39,12 +34,11 @@ const Home = (/*{local_variable,IdActions,TokenAction}*/props) => {
 
         let object = bookList.at(bookList.findIndex((book) => book.id === e))
         object.quantity = 1;
-        //console.log(userid)
+
 
         if (bookInCart.findIndex((book1) => book1.id === object.id) === -1) {
             BookStoreCartService.addBookToCart(object, userid);
             BookStoreCartService.noofBooksPresentinCart(userid).then((data) => { setCount(data.data) });
-            window.location.assign(`/home`);
             window.location.assign(`/home`);
             window.location.assign(`/home`);
             window.location.assign(`/home`);
@@ -169,7 +163,5 @@ const Home = (/*{local_variable,IdActions,TokenAction}*/props) => {
     );
 
 }
-const mapStateToProps = state => ({
-    local_variable: state
-});
-export default connect(mapStateToProps, { IdActions, TokenAction })(Home);
+
+export default Home;
