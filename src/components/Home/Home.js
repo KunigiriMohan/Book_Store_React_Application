@@ -42,9 +42,9 @@ const Home = (/*{local_variable,IdActions,TokenAction}*/props) => {
         //console.log(userid)
 
         if (bookInCart.findIndex((book1) => book1.id === object.id) === -1) {
-            //BookStoreHomePageService.getBookByBookId(e).then((data) =>{BookStoreCartService.addBookToCart(data.data,userid);})
             BookStoreCartService.addBookToCart(object, userid);
             BookStoreCartService.noofBooksPresentinCart(userid).then((data) => { setCount(data.data) });
+            window.location.assign(`/home`);
             window.location.assign(`/home`);
             window.location.assign(`/home`);
             window.location.assign(`/home`);

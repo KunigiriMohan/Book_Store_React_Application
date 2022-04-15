@@ -14,5 +14,8 @@ class UserService extends react.Component{
         return axios.get(this.baseURL+`getuserbyid/${id}`)
     }
 
-}
+    updateUserById =(user,userid) =>{
+        return axios.put(this.baseURL+`updateuser/${parseInt(userid)}`,user);
+    }
+ }
 export default new UserService()

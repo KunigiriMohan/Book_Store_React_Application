@@ -4,6 +4,7 @@ class BookStoreCartService {
     baseURL = `http://localhost:9003/`;
 
     addBookToCart =(book,id) => {
+        console.log(id);
         axios.post(this.baseURL+`addbook/${parseInt(id)}`,book);
     }
 
@@ -21,6 +22,19 @@ class BookStoreCartService {
 
     updateBooksinCart(bookid,quantity){
         return axios.post(this.baseURL+`updatequantity/${parseInt(quantity)}/${parseInt(bookid)}`);
+    }
+
+    getCartTotal(userId) {
+        return axios.get(this.baseURL+`carttotal/${parseInt(userId)}`)
+    }
+
+    removeBookFromCartusingUserId(id){
+        return axios.delete(this.baseURL+`deletebookbyuserid/${parseInt(id)}`)
+    }
+
+    saveOrder(order){
+        console.log(order)
+        return axios.post(`http://localhost:9004/order`,order);
     }
 }
 

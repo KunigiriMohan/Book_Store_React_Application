@@ -1,11 +1,12 @@
 .details-content {
     background-color: white;
-    width: 700px;
-    height: 600px;
-    margin-top: 50px;
-    margin-left: 450px;
+    width: 750px;
+    height: 570px;
+    margin-top: 10px;
+    margin-left: 250px;
     padding: 5px;
     border: 2px solid #d9d9d9;
+    margin-bottom: 30px;
 }
 
 .details-header {
@@ -33,7 +34,7 @@
 .type-text{
     font-size: 18px;
     margin-left:30px ;
-    width: 660px;
+    width: 700px;
     height: 10px;
 }
 .radio-type{
@@ -55,7 +56,7 @@
 }
 .continue-button{
     margin-top: 20px;
-    margin-left: 500px;
+    margin-left: 525px;
     width: 151px;
     height: 35px;
     /* UI Properties */

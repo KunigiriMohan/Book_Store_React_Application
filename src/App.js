@@ -7,6 +7,8 @@ import Cart from './components/Cart/Cart';
 import Login from './components/Login/Login';
 import Signup from './components/Login/Signup';
 import CustomerDetails from './components/Details/CustomerDetails';
+import Order from "../src/components/Order/Order";
+import OrderSummary from "../src/components/OrderSummary/OrderSummery"
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route exact path="/cart" component={Cart}></Route>
         <Route exact path="/register" component={Signup}></Route>
         <Route exact path="/details" component={CustomerDetails}></Route>
+        <Route exact path="/order" component={Order}></Route>
+        <Route exact path="/ordersummary" component={OrderSummary}></Route>
       </Switch>
     </BrowserRouter>
   );

@@ -70,6 +70,10 @@ const Cart = (props/*{local_variable,IdActions,TokenAction}*/) => {
             });
         }else{
             alert("Your Cart is Empty")
+            props.history.push({
+                pathname: "/home",
+                state: userid,
+            });
         }
     }
 
