@@ -1,11 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import logo from "../../assets/education.svg";
 import cart from "../../assets/supermarket.svg";
 import { useEffect, useState } from "react";
 import BookStoreCartService from "../../service/BookStoreCartService";
 import "../Cart/Cart.css"
-import Collapsible from 'react-collapsible';
 import design from "../../assets/designof.png"
 import groupdiscussion from "../../assets/groupdiscussion.png"
 import learnux from "../../assets/learnux.png"
@@ -13,50 +11,75 @@ import react from "../../assets/react.png";
 import sharepoint from "../../assets/sharepoint.png";
 import UXdesign from "../../assets/UXdesign.png";
 import dmmt from "../../assets/dontmake.png";
+import wishList from "../../assets/heart-492.png"
+import WishListService from "../../service/WishListService";
 
-
-
+/**
+ * Cart Functional Component
+ */
 const Cart = (props) => {
 
     const [count, setCount] = useState();
-
-    const [bookname, setBookName] = useState();
 
     const [bookList, setBookList] = useState([]);
 
     const userid = props.location.state;
 
-    
-    useEffect(() => {
-        BookStoreCartService.noofBooksPresentinCart(userid).then((data) => { setCount(data.data) });
-        BookStoreCartService.getBookPresentinCart(userid).then((data) => { setBookList(data.data) });
-    }, [count, bookList]);
+    const [bookInWishList,setBooksInWishList] =useState([]);
 
-    const cartRedirect = () => {
+
+    /**
+     * Function to handle remove book from cart event 
+     * @param {} id 
+     */
+    const removeBookFromCart = (id) => {
+        BookStoreCartService.removeBookFromCart(id);
+    }
+
+
+    /**
+     * Function to handle increasing quantity of books event 
+     * @param {*} bookId 
+     * @param {*} quantity 
+     */
+    const addBook = (bookId,quantity) => {
+        BookStoreCartService.updateBooksinCart(bookId,quantity+1);
+    }
+
+
+    /**
+     * Function to handle decreasing books quantity from cart event 
+     * @param {*} bookId 
+     * @param {*} quantity 
+     */
+    const deleteBook = (bookId,quantity) => {
+        quantity === 1 ? BookStoreCartService.removeBookFromCart(bookId) :
+        BookStoreCartService.updateBooksinCart(bookId,quantity-1);
+    }
+
+    /**
+     * Function to handle Home redirect icon in header
+     */
+     const homeRedirect = () => {
         props.history.push({
             pathname: "/home",
             state: userid,
         });
     }
 
-    const removeBookFromCart = (id) => {
-        BookStoreCartService.removeBookFromCart(id);
-        window.location.assign(`/cart`);
-        window.location.assign(`/cart`);
-        window.location.assign(`/cart`);
+    /**
+     * Function to handle wishlist redirect icon in header
+     */
+    const wishListRedirect = () =>{
+        props.history.push({
+            pathname: "/wishlist",
+            state: userid,
+        });
     }
 
-
-    const addBook = (bookId,quantity) => {
-        BookStoreCartService.updateBooksinCart(bookId,quantity+1);
-    }
-
-
-    const deleteBook = (bookId,quantity) => {
-        quantity === 1 ? BookStoreCartService.removeBookFromCart(bookId) :
-        BookStoreCartService.updateBooksinCart(bookId,quantity-1);
-    }
-
+    /**
+     * Function to place Order Button
+     */
     const placeOrder =() =>{
         if (count){
             props.history.push({
@@ -72,12 +95,32 @@ const Cart = (props) => {
         }
     }
 
+    /**
+     * useEffect() to store books present in wishlist in a array
+     */
+    useEffect(() =>{
+        WishListService.getBookByUserId(userid).then((data) =>{setBooksInWishList(data.data)})
+    },[bookInWishList])
+
+    /**
+     * useEffect() to store books present in cart ina array and store books in cart count in state variable
+     */
+    useEffect(() => {
+        BookStoreCartService.noofBooksPresentinCart(userid).then((data) => { setCount(data.data) });
+        BookStoreCartService.getBookPresentinCart(userid).then((data) => { setBookList(data.data) });
+    }, [count, bookList,removeBookFromCart]);
+
+
+    /**
+     * DOM of the Cart Component
+     */
     return (
         <>
             <header>
-                <img className="header-logo1" src={logo} onClick={cartRedirect} />
+                <img className="header-logo1" src={logo} onClick={homeRedirect} />
                 <h2>Book Store</h2>
                 <img className="cart-image1" src={cart} /><div className="cart-count">{count}</div>
+                <img className="wishlist-image" src={wishList} onClick={wishListRedirect} /><div className="cart-count">{bookInWishList.length}</div>
             </header>
             <div className="cart-main">
                 <h2 className="cart-details"><strong>My Cart ({count})</strong></h2>

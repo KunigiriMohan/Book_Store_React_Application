@@ -8,10 +8,14 @@ import Login from './components/Login/Login';
 import Signup from './components/Login/Signup';
 import CustomerDetails from './components/Details/CustomerDetails';
 import Order from "../src/components/Order/Order";
-import OrderSummary from "../src/components/OrderSummary/OrderSummery"
+import OrderSummary from "../src/components/OrderSummary/OrderSummery";
+import WishList from './components/Wishlist/WishList';
 
 function App() {
   return (
+    /**
+     * Routing of Different Components in Book Store Application
+     */
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Login}></Route>
@@ -21,6 +25,7 @@ function App() {
         <Route exact path="/details" component={CustomerDetails}></Route>
         <Route exact path="/order" component={Order}></Route>
         <Route exact path="/ordersummary" component={OrderSummary}></Route>
+        <Route exact path="/wishlist" component={WishList}></Route>
       </Switch>
     </BrowserRouter>
   );

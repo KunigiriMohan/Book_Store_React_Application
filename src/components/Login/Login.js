@@ -4,7 +4,11 @@ import logo from "../../assets/education.svg";
 import { useEffect, useState } from "react";
 import UserService from "../../service/UserService.js"
 
-
+/**
+ * Functional Component of Login
+ * @param {*} props 
+ * @returns 
+ */
 const Login = (props) => {
 
     const[errorMessage,setErrorMessage] = useState()
@@ -14,6 +18,10 @@ const Login = (props) => {
         password:''
     })
 
+    /**
+     * Function to handle input fields
+     * @param {*} e 
+     */
     const handleInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -21,12 +29,25 @@ const Login = (props) => {
 
     }
 
+    /**
+     * function to handle onClick signup button 
+     */
+    const signUp = () =>{
+        props.history.push({
+            pathname: "/register",
+            state: null,
+        });
+    }
 
+    /**
+     * function to handle onClick login button 
+     */
     const login = async (data) =>{
         data.preventDefault();
         let object = UserService.userLogin(userLogin);
 
         if ((await object).data.userId){
+            console.log((await object).data.userId)
             props.history.push({
                 pathname: "/home",
                 state: ((await object).data.userId),
@@ -35,15 +56,15 @@ const Login = (props) => {
         setErrorMessage((await object).data.data)
     }
 
+    /**
+     * useEffect() to show error message
+     */
     useEffect(() =>{
     },[errorMessage,userLogin])
 
-
-    const signUp = () =>{
-        window.location.assign(`http://localhost:3000/register`)
-    }
-    
-
+    /**
+     * DOM Element of Login Component
+     */
     return (
         <>
             <div className="login-header">

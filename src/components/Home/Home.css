@@ -55,7 +55,6 @@
 .book-list {
     display: flex;
     flex-wrap: wrap;
-    /*align-items: center;*/
     background-color: white;
     margin-left: 250px;
     max-width: 1500px;
@@ -144,7 +143,15 @@
     cursor: pointer;
 }
 
-
+.wishlist-image{
+    margin-top: 22px;
+    margin-left: 30px;
+    width: 20px;
+    height: 21px;
+    background: transparent 0% 0% no-repeat padding-box;
+    opacity: 1;
+    cursor:pointer
+}
 header {
     background-color: #A03037;
     top: 0px;

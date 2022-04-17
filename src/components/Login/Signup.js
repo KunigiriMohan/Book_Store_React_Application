@@ -4,6 +4,12 @@ import logo from "../../assets/education.svg";
 import { useEffect, useState } from "react";
 import UserService from "../../service/UserService.js"
 import "../Login/SignUp.css"
+
+/**
+ * Signup Functional Component
+ * @param {*} props 
+ * @returns 
+ */
 const Signup = (props) => {
 
     const [userSignUp, setuserSignUp] = useState({
@@ -35,6 +41,10 @@ const Signup = (props) => {
     })
     const [errorMessage, setErrorMessage] = useState()
 
+    /**
+     * Functions to handle input Fields in form
+     * @param {*} e 
+     */
     const handleInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -45,6 +55,10 @@ const Signup = (props) => {
         validate(e);
     }
 
+    /**
+     * Function to handle Validation of Input Field
+     * @param {*} e 
+     */
     const validate = (e) => {
         const regexName = /^[A-Z]{1}[a-zA-Z]{2,}$/;
         const regexMobile = /^[6-9]{1}[0-9]{9,}$/;
@@ -110,6 +124,10 @@ const Signup = (props) => {
             
     }
 
+    /**
+     * Function to handle event by signup button
+     * @param {*} data 
+     */
     const signup = async (data) => {
         data.preventDefault();
         let object = UserService.userRegister(userSignUp
@@ -118,11 +136,17 @@ const Signup = (props) => {
         console.log(object)
         if ((await object).data.id) {
             alert("User registered Successfully");
-            window.location.assign(`http://localhost:3000/`)
+            props.history.push({
+                pathname: "/",
+                state: null,
+            });
         }
         setErrorMessage((await object).data.data)
     }
 
+    /**
+     * DOM element of Signup Component
+     */
     return (
         <>
             <div className="signup-header">
@@ -135,34 +159,34 @@ const Signup = (props) => {
                     <div className="row-content">
                         <label htmlFor="name" className="signup-label">Name</label>
                         <input type="text" className="signup-control" name="name" value={userSignUp
-                            .name} id="name" onChange={handleInput} />
+                            .name} id="name" onChange={handleInput} required/>
                     </div>
                     <p className="error-message2">{error.name}</p>
                     <div className="row-content">
                         <label htmlFor="mobile" className="signup-label">Mobile Number</label>
                         <input type="text" className="signup-control" name="mobileNumber" value={userSignUp
-                            .mobileNumber} id="mobileNumber" onChange={handleInput} />
+                            .mobileNumber} id="mobileNumber" onChange={handleInput} required />
                             
                     </div>
                     <p className="error-message2">{error.mobileNumber}</p>
                     <div className="row-content">
                         <label htmlFor="email" className="signup-label">Email Address</label>
                         <input type="text" className="signup-control" name="email" value={userSignUp
-                            .email} id="email" onChange={handleInput} />
+                            .email} id="email" onChange={handleInput} required />
                             
                     </div>
                     <p className="error-message2">{error.email}</p>
                     <div className="row-content">
                         <label htmlFor="landmark" className="signup-label">Landmark</label>
                         <input type="text" className="signup-control" name="landmark" value={userSignUp
-                            .landmark} id="landmark" onChange={handleInput} />
+                            .landmark} id="landmark" onChange={handleInput} required />
                             
                     </div>
                     <p className="error-message2">{error.landmark}</p>
                     <div className="row-content">
                         <label htmlFor="locality" className="signup-label">Locality</label>
                         <input type="text" className="signup-control" name="locality" value={userSignUp
-                            .locality} id="locality" onChange={handleInput} />
+                            .locality} id="locality" onChange={handleInput} required />
                             
                     </div>
                     <p className="error-message2">{error.locality}</p>
@@ -170,7 +194,7 @@ const Signup = (props) => {
                     <div className="row-content">
                         <label htmlFor="address" className="signup-label">Address</label>
                         <input type="text" className="signup-control" name="address" value={userSignUp
-                            .address} id="address" onChange={handleInput} />
+                            .address} id="address" onChange={handleInput} required />
                             
                     </div>
                     <p className="error-message2">{error.address}</p>
@@ -179,7 +203,7 @@ const Signup = (props) => {
                     <div className="row-content">
                         <label htmlFor="city" className="signup-label">City</label>
                         <input type="text" className="signup-control" name="city" value={userSignUp
-                            .city} id="city" onChange={handleInput} />
+                            .city} id="city" onChange={handleInput} required/>
                             
                     </div>
                     <p className="error-message2">{error.city}</p>
@@ -187,7 +211,7 @@ const Signup = (props) => {
                     <div className="row-content">
                         <label htmlFor="pinCode" className="signup-label">PinCode</label>
                         <input type="text" className="signup-control" name="pinCode" value={userSignUp
-                            .pinCode} id="pinCode" onChange={handleInput} />
+                            .pinCode} id="pinCode" onChange={handleInput} required />
                             
                     </div>
                     <p className="error-message2">{error.pinCode}</p>
@@ -195,14 +219,14 @@ const Signup = (props) => {
                     <div className="row-content">
                         <label htmlFor="country" className="signup-label">Country</label>
                         <input type="text" className="signup-control" name="country" value={userSignUp
-                            .country} id="country" onChange={handleInput} />
+                            .country} id="country" onChange={handleInput} required />
                             
                     </div>
                     <p className="error-message2">{error.country}</p>
                     <div className="row-content">
                         <label htmlFor="password" className="signup-label">Password</label>
                         <input type="password" className="signup-control" name="password" value={userSignUp
-                            .password} id="name" onChange={handleInput} />
+                            .password} id="name" onChange={handleInput} required />
                             
                     </div>
                     <p className="error-message2">{error.password}</p>

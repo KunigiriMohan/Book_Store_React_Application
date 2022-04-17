@@ -13,7 +13,6 @@
     margin-left: 330px;
     width: 151px;
     height: 35px;
-    /* UI Properties */
     background: #3371B5 0% 0% no-repeat padding-box;
     opacity: 1;
     color: white;
@@ -37,7 +36,7 @@
 }
 .cart-total-title{
     color:black;
-    width:160px;
+    width:170px;
     margin-left: 30px;
     font-size: 20px;
 }

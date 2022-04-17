@@ -13,9 +13,15 @@ import sharepoint from "../../assets/sharepoint.png";
 import UXdesign from "../../assets/UXdesign.png";
 import dmmt from "../../assets/dontmake.png";
 import "../Order/Order.css"
+import WishListService from "../../service/WishListService";
+import wishList from "../../assets/heart-492.png";
 
-
+/**
+ * Function Component of Order
+ * @param {*} props  
+ */
 const Order = (props) => {
+
     const userid = props.location.state;
     const [count, setCount] = useState();
     const [user, setUser] = useState({
@@ -35,6 +41,7 @@ const Order = (props) => {
 
     const [bookList, setBookList] = useState([]);
 
+    const [bookInWishList,setBooksInWishList] =useState([]);
 
     const [parameters ,setParameters] =useState({
         userId:userid,
@@ -47,15 +54,10 @@ const Order = (props) => {
         }
     );
 
-
-    useEffect(() => {
-        BookStoreCartService.noofBooksPresentinCart(userid).then((data) => { setCount(data.data) });
-        BookStoreCartService.getBookPresentinCart(userid).then((data) => { setBookList(data.data) });
-        BookStoreCartService.getCartTotal(userid).then((data) => { setCartTotal(data.data) })
-    }, [count, bookList]);
-
-
-
+    /**
+     * Function to handle remove book from cart event 
+     * @param {} id 
+     */
     const removeBookFromCart = (id) => {
         BookStoreCartService.removeBookFromCart(id);
         props.history.push({
@@ -64,17 +66,28 @@ const Order = (props) => {
         });
     }
 
-
+     /**
+     * Function to handle increasing quantity of books event 
+     * @param {*} bookId 
+     * @param {*} quantity 
+     */
     const addBook = (bookId, quantity) => {
         BookStoreCartService.updateBooksinCart(bookId, quantity + 1);
     }
 
-
+    /**
+     * Function to handle decreasing books quantity from cart event 
+     * @param {*} bookId 
+     * @param {*} quantity 
+     */
     const deleteBook = (bookId, quantity) => {
         quantity === 1 ? BookStoreCartService.removeBookFromCart(bookId) :
             BookStoreCartService.updateBooksinCart(bookId, quantity - 1);
     }
 
+     /**
+     * Function to handle cart redirect icon in header
+     */
     const cartRedirect = () => {
         props.history.push({
             pathname: "/cart",
@@ -82,6 +95,19 @@ const Order = (props) => {
         });
     }
 
+    /**
+     * Function to handle WishList redirect icon in header
+     */
+    const wishListRedirect = () =>{
+        props.history.push({
+            pathname: "/wishlist",
+            state: userid,
+        });
+    }
+
+    /**
+     * Function to handle Home redirect icon in header
+     */
     const homeRedirect = () => {
         props.history.push({
             pathname: "/home",
@@ -89,31 +115,30 @@ const Order = (props) => {
         });
     }
 
+    /**
+     * Function to Handle the input field in the edit form
+     * @param {*} e 
+     */
     const handleInput = (e) => {
         const name = e.target.name;
         const value = e.target.value
         setUser({ ...user, [name]: value })
 
     }
-    useEffect(() => {
-        BookStoreCartService.noofBooksPresentinCart(userid).then((data) => { setCount(data.data) });
 
-    }, [count]);
-
-    useEffect(() => {
-        UserService.getUserbyId(userid).then((data) => {
-            setUser({
-                ...user, ...data, name: data.data.name, mobileNumber: data.data.mobileNumber,
-                pinCode: data.data.pinCode, locality: data.data.locality, address: data.data.address, city: data.data.city, landmark: data.data.landmark
-            })
-        });
-    })
-
-
+    /**
+     * Function to handle onClick edit button in user details edit field
+     * @param {*} e 
+     */
     const enableEdit = (e) => {
         setEditEnabled(e);
     }
-    const updateUser = () => {
+
+    /**
+     * Function to handle onClick contine button 
+     * @param {*} e 
+     */
+    const checkOut = () => {
         if(bookList.length===0){
             alert("No Books Present in the cart to checkout!");
             props.history.push({
@@ -144,12 +169,52 @@ const Order = (props) => {
         })
         }
     }
+
+    /**
+     * useEffect() to load details of no of books present in cart, books present cart, total cart value
+     */
+    useEffect(() => {
+        BookStoreCartService.noofBooksPresentinCart(userid).then((data) => { setCount(data.data) });
+        BookStoreCartService.getBookPresentinCart(userid).then((data) => { setBookList(data.data) });
+        BookStoreCartService.getCartTotal(userid).then((data) => { setCartTotal(data.data) })
+    }, [count, bookList]);
+
+    /**
+     * 
+     */
+    useEffect(() => {
+        BookStoreCartService.noofBooksPresentinCart(userid).then((data) => { setCount(data.data) });
+    }, [count]);
+
+    /**
+     * useEffect() to load details of user present in database
+     */
+    useEffect(() => {
+        UserService.getUserbyId(userid).then((data) => {console.log(user);
+            setUser({
+                ...user, ...data, name: data.data.name, mobileNumber: data.data.mobileNumber,
+                pinCode: data.data.pinCode, locality: data.data.locality, address: data.data.address, city: data.data.city, landmark: data.data.landmark
+            })
+        });
+    },[])
+
+    /**
+     * useEffect() to load books present in wishlist
+     */
+    useEffect(() =>{
+        WishListService.getBookByUserId(userid).then((data) =>{setBooksInWishList(data.data)})
+    },[bookInWishList])
+
+    /**
+     * DOM Element of Order Component
+     */
     return (
         <>
             <header>
                 <img className="header-logo1" src={logo} onClick={homeRedirect} />
                 <h2>Book Store</h2>
                 <img className="cart-image1" src={cart} onClick={cartRedirect} /><div className="cart-count">{count}</div>
+                <img className="wishlist-image" src={wishList} onClick={wishListRedirect} /><div className="cart-count">{bookInWishList.length}</div>
             </header>
             <div className="cart-main">
                 <h2 className="cart-details"><strong>My Cart ({count})</strong></h2>
@@ -226,7 +291,7 @@ const Order = (props) => {
                         <h1 className="cart-total-title">Total Cart Value : </h1>
                         <h2 className="cart-total">{cartTotal}</h2>
                     </div>
-                    <button className="order-button" onClick={() => updateUser(user)}>Checkout</button>
+                    <button className="order-button" onClick={() => checkOut(user)}>Checkout</button>
                 </div>
             </div>
         </>
