@@ -57,6 +57,14 @@ const WishList = (props) => {
         WishListService.deleteBookById(book.id);
     }
 
+     /**
+     * Functiton for Handling move to cart button onChange event 
+     * @param {} book 
+     */
+      const removeBook =(book) =>{
+        WishListService.deleteBookById(book.id);
+    }
+
 
     /**
      * useEffect to load count of books present in cart and books present in wishlist
@@ -93,7 +101,10 @@ const WishList = (props) => {
                                 <h2 className="book-title">{book.bookName}</h2>
                                 <p className="book-author">{book.bookAuthor}</p>
                                 <p className="book-price">Rs {book.bookPrice}</p>
+                                <div className="button-div">
                                 <button className="add-to-cart-wishlist" onClick={() => moveBookToCart(book)}>Add to Cart</button>
+                                <button className="remove-book-from-wishlist" onClick={() => removeBook(book)}>Remove</button>
+                                </div>
                             </div>
                         </div>
                     )
